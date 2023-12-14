@@ -8,12 +8,12 @@ package Book;
  *
  * @author Acer
  */
-public class EditBook_GUI extends javax.swing.JFrame {
+public class EditAdmin_GUI extends javax.swing.JFrame {
 
     /**
      * Creates new form EditBook_GUI
      */
-    public EditBook_GUI() {
+    public EditAdmin_GUI() {
         initComponents();
     }
 
@@ -205,7 +205,7 @@ public class EditBook_GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EditBook_GUI().setVisible(true);
+                new EditAdmin_GUI().setVisible(true);
             }
         });
     }
