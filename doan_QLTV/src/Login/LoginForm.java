@@ -136,7 +136,7 @@ public class LoginForm extends javax.swing.JFrame {
             return;
         }
         
-        if (selectedRole.equals("Quản trị viên")) {
+        if (selectedRole.equals("admin")) {
             if (authenticateAdmin(username, password)) {
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
                 
@@ -147,7 +147,7 @@ public class LoginForm extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Thông tin đăng nhập không đúng!");
             }
-        } else if (selectedRole.equals("Độc giả")) {
+        } else if (selectedRole.equals("docgia")) {
             if (authenticateReader(username, password)) {
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
                 

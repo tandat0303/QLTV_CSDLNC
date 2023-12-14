@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
+import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 /*
@@ -25,6 +26,7 @@ public class UserInfor_GUI extends javax.swing.JFrame {
      */
     public UserInfor_GUI() {
         initComponents();
+        loadData(); // Gọi phương thức loadData khi form được khởi tạo
     }
 
     /**
@@ -39,11 +41,11 @@ public class UserInfor_GUI extends javax.swing.JFrame {
         jSeparator7 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        hoten = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        Tuoi = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        EMail = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -61,11 +63,29 @@ public class UserInfor_GUI extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Họ và tên:");
 
+        hoten.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hotenActionPerformed(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Tuổi:");
 
+        Tuoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TuoiActionPerformed(evt);
+            }
+        });
+
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Email:");
+
+        EMail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EMailActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Vai Trò:");
@@ -119,8 +139,7 @@ public class UserInfor_GUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(66, 66, 66)
-                        .addComponent(jLabel3)
-                        .addGap(45, 45, 45))
+                        .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,9 +160,9 @@ public class UserInfor_GUI extends javax.swing.JFrame {
                             .addComponent(jButton1)
                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField2)
-                                .addComponent(jTextField3)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(Tuoi)
+                                .addComponent(EMail)
+                                .addComponent(hoten, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -154,15 +173,15 @@ public class UserInfor_GUI extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(hoten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Tuoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(EMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -175,7 +194,37 @@ public class UserInfor_GUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+        private void loadData() {
+        try {
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+        MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
 
+        // Tìm người dùng theo tên tài khoản (tentk) hoặc một đặc điểm khác
+        Document userDocument = collection.find(Filters.eq("human.tentk", "admin123")).first();
+
+        // Kiểm tra xem có dữ liệu không trước khi cập nhật
+        if (userDocument != null) {
+            String hoTen = userDocument.getString("human.hoten");
+            String tuoi = userDocument.getString("human.tuoi");
+            String email = userDocument.getString("human.email");
+            String vaiTro = userDocument.getString("vaitro");
+
+            // Cập nhật các JTextField với thông tin người dùng
+            hoten.setText(hoTen);
+            Tuoi.setText(tuoi);
+            EMail.setText(email);
+
+        }
+        mongoClient.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         UserForm af = new UserForm();
         af.setVisible(true);
@@ -190,6 +239,18 @@ public class UserInfor_GUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void hotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hotenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_hotenActionPerformed
+
+    private void TuoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TuoiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TuoiActionPerformed
+
+    private void EMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EMailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EMailActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,8 +288,11 @@ public class UserInfor_GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField EMail;
+    private javax.swing.JTextField Tuoi;
     private javax.swing.JMenuItem btnBack;
     private javax.swing.JMenuItem btnLogOut;
+    private javax.swing.JTextField hoten;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -239,9 +303,6 @@ public class UserInfor_GUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }
