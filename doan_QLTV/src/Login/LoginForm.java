@@ -122,6 +122,10 @@ public class LoginForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
+    public String getLoggedInUsername() {
+        return loggedInUsername;
+    }
+    
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {                                         
         String selectedRole = (String) comboPosition.getSelectedItem();
         String username = usernameField.getText();
@@ -151,7 +155,9 @@ public class LoginForm extends javax.swing.JFrame {
             if (authenticateReader(username, password)) {
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
                 
-                UserForm rf = new UserForm();
+                loggedInUsername = username;
+                
+                UserForm rf = new UserForm(loggedInUsername);
                 rf.setVisible(true);
                 
                 this.dispose();
@@ -227,5 +233,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JTextField usernameField;
+    private String loggedInUsername;
+    
     // End of variables declaration                   
 }

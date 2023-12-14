@@ -3,20 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package User;
-import User.UserBrBook_GUI;
-import User.UserOdBook_GUI;
-import User.UserInfor_GUI;
+import Login.LoginForm;
+import User.UserBrBook;
+import User.UserOdBook;
+import User.UserInfor;
 /**
  *
  * @author hvu31
  */
 public class UserForm extends javax.swing.JFrame {
-
     /**
      * Creates new form UserForm
      */
-    public UserForm() {
+    public UserForm(String username) {
+        this.loggedInUsername = username;
         initComponents();
+        setTitle("Thư viện SGUni");
     }
 
     /**
@@ -43,12 +45,13 @@ public class UserForm extends javax.swing.JFrame {
 
         jButton2.setText("Đăng xuất");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        TTCN.setText("THÔNG TIN CẮ NHÂN");
+        TTCN.setText("THÔNG TIN CÁ NHÂN");
         TTCN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TTCNActionPerformed(evt);
@@ -105,30 +108,35 @@ public class UserForm extends javax.swing.JFrame {
         );
 
         pack();
+        
+        setLocationRelativeTo(null);
     }// </editor-fold>                        
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+        LoginForm lf = new LoginForm();
+        lf.setVisible(true);
+        
+        this.dispose();
     }                                        
 
     private void TTCNActionPerformed(java.awt.event.ActionEvent evt) {                                     
-        // TODO add your handling code here:
-        UserInfor_GUI rf = new UserInfor_GUI();
-        rf.setVisible(true);
+        // TODO add your handling code here
+        UserInfor ui = new UserInfor(loggedInUsername);
+        ui.setVisible(true);
         this.dispose();
     }                                    
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-        UserBrBook_GUI rf = new  UserBrBook_GUI();
-        rf.setVisible(true);
+        UserBrBook ub = new  UserBrBook(loggedInUsername);
+        ub.setVisible(true);
         this.dispose();
     }                                        
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-        UserOdBook_GUI rf = new  UserOdBook_GUI();
-        rf.setVisible(true);
+        UserOdBook ud = new  UserOdBook(loggedInUsername);
+        ud.setVisible(true);
         this.dispose();
     }                                        
 
@@ -162,7 +170,7 @@ public class UserForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserForm().setVisible(true);
+                new UserForm(loggedInUsername).setVisible(true);
             }
         });
     }
@@ -174,5 +182,6 @@ public class UserForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private static String loggedInUsername;
     // End of variables declaration                   
 }
