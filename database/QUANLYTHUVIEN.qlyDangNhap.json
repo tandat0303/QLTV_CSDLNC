@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "6575cba1098abe6dce9d6c55"
+  },
+  "vaitro": "quantrivien",
+  "tentk": "admin123",
+  "matkhau": "12345",
+  "human": {
+    "hoten": "huyhoang",
+    "tuoi": "25",
+    "sdt": "0335487431",
+    "email": "hvu@gmail.com"
+  }
+},
+{
+  "_id": {
+    "$oid": "6575c2a1098abe6dce9d6c55"
+  },
+  "vaitro": "nguoidung",
+  "tentk": "docgia123",
+  "matkhau": "12345",
+  "human": {
+    "hoten": "huyhoang",
+    "tuoi": "25",
+    "sdt": "0335487431",
+    "email": "hvu@gmail.com"
+  }
+}]

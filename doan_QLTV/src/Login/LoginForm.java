@@ -136,7 +136,7 @@ public class LoginForm extends javax.swing.JFrame {
             return;
         }
         
-        if (selectedRole.equals("admin")) {
+        if (selectedRole.equals("Quản trị viên")) {
             if (authenticateAdmin(username, password)) {
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
                 
@@ -147,7 +147,7 @@ public class LoginForm extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Thông tin đăng nhập không đúng!");
             }
-        } else if (selectedRole.equals("docgia")) {
+        } else if (selectedRole.equals("Độc giả")) {
             if (authenticateReader(username, password)) {
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
                 
@@ -166,7 +166,7 @@ public class LoginForm extends javax.swing.JFrame {
         MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
         MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
 
-        Document admin = collection.find(Filters.and(Filters.eq("tentk", username), Filters.eq("matkhau", password), Filters.eq("vaitro", "Quản trị viên")))
+        Document admin = collection.find(Filters.and(Filters.eq("tentk", username), Filters.eq("matkhau", password), Filters.eq("vaitro", "quantrivien")))
                 .first();
 
         return admin != null;
@@ -177,7 +177,7 @@ public class LoginForm extends javax.swing.JFrame {
         MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
         MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
 
-        Document reader = collection.find(Filters.and(Filters.eq("tentk", username), Filters.eq("matkhau", password), Filters.eq("vaitro", "Độc giả")))
+        Document reader = collection.find(Filters.and(Filters.eq("tentk", username), Filters.eq("matkhau", password), Filters.eq("vaitro", "nguoidung")))
                 .first();
 
         return reader != null;

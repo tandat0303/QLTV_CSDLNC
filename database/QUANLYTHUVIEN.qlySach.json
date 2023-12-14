@@ -1,0 +1,198 @@
+[{
+  "_id": {
+    "$oid": "65765ef7c237b205c8974455"
+  },
+  "masach": "TN01",
+  "tensach": "Dế Mèn phiêu lưu kí",
+  "theloai": "Thiếu nhi",
+  "nhaxuatban": "Kim Đồng",
+  "giasach": 100000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "65766030c237b205c8974456"
+  },
+  "masach": "TN02",
+  "tensach": "Những cuộc phiêu lưu của Pinocchio",
+  "theloai": "Thiếu nhi",
+  "nhaxuatban": "C.Lavagna",
+  "giasach": 90000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "65766073c237b205c8974457"
+  },
+  "masach": "TN03",
+  "tensach": "Đồi thỏ",
+  "theloai": "Thiếu nhi",
+  "nhaxuatban": "Rex Collings Ltd",
+  "giasach": 100000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "657660b7c237b205c8974458"
+  },
+  "masach": "VH01",
+  "tensach": "Đàn ông sao Hỏa, đàn bà sao Kim",
+  "theloai": "Văn hóa xã hội",
+  "nhaxuatban": "Harper Collins",
+  "giasach": 120000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "65766149c237b205c8974459"
+  },
+  "masach": "VH02",
+  "tensach": "Đời sống xã hội thời đại số",
+  "theloai": "Văn hóa xã hội",
+  "nhaxuatban": "MIT Press",
+  "giasach": 130000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "65766184c237b205c897445a"
+  },
+  "masach": "VH03",
+  "tensach": "Câu chuyện cổ tích Grimm",
+  "theloai": "Văn hóa xã hội",
+  "nhaxuatban": "Houghton Mifflin Harcourt",
+  "giasach": 120000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "657661d6c237b205c897445b"
+  },
+  "masach": "LS01",
+  "tensach": "Việt Nam sử lược",
+  "theloai": "Lịch sử",
+  "nhaxuatban": "Khoa Học Xã Hội",
+  "giasach": 120000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "65766218c237b205c897445c"
+  },
+  "masach": "LS02",
+  "tensach": "Văn hóa Việt Nam: góc nhìn đa chiều",
+  "theloai": "Lịch sử",
+  "nhaxuatban": "Thế Giới",
+  "giasach": 200000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "6576627ac237b205c897445d"
+  },
+  "masach": "LS03",
+  "tensach": "Kinh tế Việt Nam: đổi mới và phát triển",
+  "theloai": "Lịch sử",
+  "nhaxuatban": "Kinh tế",
+  "giasach": 200000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "657662c6c237b205c897445e"
+  },
+  "masach": "TS01",
+  "tensach": "Đời tôi",
+  "theloai": "Tiểu sử, tự truyện",
+  "nhaxuatban": "Văn Học",
+  "giasach": 120000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "65766317c237b205c897445f"
+  },
+  "masach": "TS02",
+  "tensach": "Nhà lãnh đạo tài năng",
+  "theloai": "Tiểu sử, tự truyện",
+  "nhaxuatban": "Thế giới",
+  "giasach": 120000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "65766341c237b205c8974460"
+  },
+  "masach": "TS03",
+  "tensach": "Becoming",
+  "theloai": "Tiểu sử, tự truyện",
+  "nhaxuatban": "Crown Publishing Group",
+  "giasach": 150000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "657663a2c237b205c8974462"
+  },
+  "masach": "VT01",
+  "tensach": "Những ngôi sao chết",
+  "theloai": "Văn học viễn tưởng",
+  "nhaxuatban": "Văn Học",
+  "giasach": 150000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "657663e6c237b205c8974463"
+  },
+  "masach": "VT02",
+  "tensach": "Cuộc phiêu lưu của Gấu",
+  "theloai": "Văn học viễn tưởng",
+  "nhaxuatban": "Kim Đồng",
+  "giasach": 100000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "65766410c237b205c8974464"
+  },
+  "masach": "VT03",
+  "tensach": "Neuromance",
+  "theloai": "Văn học viễn tưởng",
+  "nhaxuatban": "Ace Books",
+  "giasach": 100000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "657677482b3e7506e59228ad"
+  },
+  "masach": "TT01",
+  "tensach": "Chết ở Hồ Gươm",
+  "theloai": "Trinh thám",
+  "nhaxuatban": "Văn học",
+  "giasach": 170000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "657687fb6982e7b453404242"
+  },
+  "masach": "TT02",
+  "tensach": "Murder on the Orient Express",
+  "theloai": "Trinh thám",
+  "nhaxuatban": "Collins Crime Club",
+  "giasach": 250000,
+  "trangthai": "Đã nhập"
+},
+{
+  "_id": {
+    "$oid": "6576882b6982e7b453404243"
+  },
+  "masach": "TT03",
+  "tensach": "The Da Vinci Code",
+  "theloai": "Trinh thám",
+  "nhaxuatban": "Doubleday",
+  "giasach": 200000,
+  "trangthai": "Đã nhập"
+}]
