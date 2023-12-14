@@ -1,5 +1,13 @@
 package User;
-
+import User.UserForm;
+import com.toedter.calendar.JDateChooser;
+import java.awt.Dimension;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -9,6 +17,8 @@ package User;
  *
  * @author Acer
  */
+
+
 public class UserInfor_GUI extends javax.swing.JFrame {
     /**
      * Creates new form BookManagement_GUI
@@ -167,7 +177,10 @@ public class UserInfor_GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
+        UserForm af = new UserForm();
+        af.setVisible(true);
+                
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
