@@ -120,10 +120,16 @@ public class UserForm extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
+        UserBrBook_GUI rf = new  UserBrBook_GUI();
+        rf.setVisible(true);
+        this.dispose();
     }                                        
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
+        UserOdBook_GUI rf = new  UserOdBook_GUI();
+        rf.setVisible(true);
+        this.dispose();
     }                                        
 
     /**
@@ -160,7 +166,7 @@ public class UserForm extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify                     
     private javax.swing.JButton TTCN;
     private javax.swing.JButton jButton1;
