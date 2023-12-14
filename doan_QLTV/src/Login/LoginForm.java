@@ -6,6 +6,7 @@ package Login;
 
 import Admin.AdminForm;
 import Reader.ReaderForm;
+import User.UserForm;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -150,7 +151,7 @@ public class LoginForm extends javax.swing.JFrame {
             if (authenticateReader(username, password)) {
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
                 
-                ReaderForm rf = new ReaderForm();
+                UserForm rf = new UserForm();
                 rf.setVisible(true);
                 
                 this.dispose();
