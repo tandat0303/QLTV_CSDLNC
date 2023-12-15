@@ -100,6 +100,11 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="btnRefresh" min="-2" pref="137" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="373" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -108,8 +113,10 @@
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="226" max="-2" attributes="0"/>
-              <EmptySpace pref="207" max="32767" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="176" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="btnRefresh" pref="36" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -164,7 +171,7 @@
         <Component class="javax.swing.JComboBox" name="comboSearch">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;T&#xea;n ng&#x1b0;&#x1edd;i &#x111;&#x1ecd;c&quot;, &quot;M&#xe3; s&#xe1;ch&quot;, &quot;T&#xea;n s&#xe1;ch&quot; })" type="code"/>
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;T&#xea;n ng&#x1b0;&#x1edd;i &#x111;&#x1eb7;t&quot;, &quot;M&#xe3; s&#xe1;ch&quot;, &quot;T&#xea;n s&#xe1;ch&quot; })" type="code"/>
             </Property>
           </Properties>
           <AuxValues>
@@ -190,14 +197,16 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable2">
+        <Component class="javax.swing.JTable" name="orderList">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
+              <Table columnCount="6" rowCount="4">
+                <Column editable="true" title="M&#xe3; ng&#x1b0;&#x1edd;i &#x111;&#x1eb7;t" type="java.lang.Object"/>
                 <Column editable="true" title="T&#xea;n ng&#x1b0;&#x1edd;i &#x111;&#x1eb7;t" type="java.lang.Object"/>
                 <Column editable="true" title="M&#xe3; s&#xe1;ch" type="java.lang.Object"/>
                 <Column editable="true" title="T&#xea;n s&#xe1;ch" type="java.lang.Object"/>
-                <Column editable="true" title="Title 4" type="java.lang.Object"/>
+                <Column editable="true" title="Th&#x1ec3; lo&#x1ea1;i" type="java.lang.Object"/>
+                <Column editable="true" title="Nh&#xe0; xu&#x1ea5;t b&#x1ea3;n" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -222,6 +231,16 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -231,5 +250,13 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="btnRefresh">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/img/refresh-button.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

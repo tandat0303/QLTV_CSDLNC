@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Book;
+package Admin;
 
 /**
  *
@@ -35,7 +35,8 @@ public class BrManagement_GUI extends javax.swing.JFrame {
         searchField = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        orderList = new javax.swing.JTable();
+        btnRefresh = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         btnBack = new javax.swing.JMenuItem();
@@ -72,7 +73,7 @@ public class BrManagement_GUI extends javax.swing.JFrame {
 
         jLabel1.setText("Tìm kiếm theo:");
 
-        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên người đọc", "Mã sách", "Tên sách" }));
+        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên người đặt", "Mã sách", "Tên sách" }));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
         btnSearch.setText("Tìm kiếm");
@@ -104,18 +105,24 @@ public class BrManagement_GUI extends javax.swing.JFrame {
                 .addContainerGap(46, Short.MAX_VALUE))
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        orderList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Tên người đặt", "Mã sách", "Tên sách", "Title 4"
+                "Mã người đặt", "Tên người đặt", "Mã sách", "Tên sách", "Thể loại", "Nhà xuất bản"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(orderList);
+        if (orderList.getColumnModel().getColumnCount() > 0) {
+            orderList.getColumnModel().getColumn(5).setResizable(false);
+        }
+
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/refresh-button.png"))); // NOI18N
+        btnRefresh.setText("Làm mới");
 
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/order_book.png"))); // NOI18N
         jMenu2.setText("Quản lý đặt sách");
@@ -142,6 +149,10 @@ public class BrManagement_GUI extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(jScrollPane2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(373, 373, 373))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,8 +160,10 @@ public class BrManagement_GUI extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(207, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -194,6 +207,7 @@ public class BrManagement_GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem btnBack;
     private javax.swing.JMenuItem btnLogOut;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
     private javax.swing.JComboBox<String> comboSearch;
     private javax.swing.JLabel jLabel1;
@@ -205,7 +219,7 @@ public class BrManagement_GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable orderList;
     private javax.swing.JTextField searchField;
     // End of variables declaration//GEN-END:variables
 }

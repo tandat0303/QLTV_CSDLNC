@@ -7,8 +7,12 @@ package Admin;
 import Analysis.Report;
 import Book.BookManagement;
 import Login.LoginForm;
-import Reader.ReaderManagement;
 import Reserve_Return.ReserveBook;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 
 /**
  *
@@ -19,9 +23,17 @@ public class AdminForm extends javax.swing.JFrame {
     /**
      * Creates new form AdminForm_GUI
      */
-    public AdminForm() {
+    public AdminForm(String username) {
+        this.loggedInUsername = username;
         initComponents();
         setTitle("Hệ thống quản lý thư viện SGUni");
+        
+        String adminName = getAdminName(username);
+        if (adminName != null) {
+            nameAdmin.setText(adminName);
+        } else {
+            nameAdmin.setText("QUẢN TRỊ VIÊN");
+        }
     }
 
     /**
@@ -34,13 +46,14 @@ public class AdminForm extends javax.swing.JFrame {
     private void initComponents() {
 
         btnBookMng = new javax.swing.JButton();
-        btnReaderMng = new javax.swing.JButton();
+        btnUserMng = new javax.swing.JButton();
         btnReserve = new javax.swing.JButton();
-        btnAdminMng = new javax.swing.JButton();
         btnBookOrd = new javax.swing.JButton();
         btnAnalysis = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        nameAdmin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,10 +64,10 @@ public class AdminForm extends javax.swing.JFrame {
             }
         });
 
-        btnReaderMng.setText("QUẢN LÝ NGƯỜI ĐỌC");
-        btnReaderMng.addActionListener(new java.awt.event.ActionListener() {
+        btnUserMng.setText("QUẢN LÝ NGƯỜI DÙNG");
+        btnUserMng.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReaderMngActionPerformed(evt);
+                btnUserMngActionPerformed(evt);
             }
         });
 
@@ -62,13 +75,6 @@ public class AdminForm extends javax.swing.JFrame {
         btnReserve.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReserveActionPerformed(evt);
-            }
-        });
-
-        btnAdminMng.setText("QUẢN LÝ QUẢN TRỊ VIÊN");
-        btnAdminMng.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdminMngActionPerformed(evt);
             }
         });
 
@@ -95,97 +101,127 @@ public class AdminForm extends javax.swing.JFrame {
 
         jLabel2.setText("HỆ THỐNG QUẢN LÝ THƯ VIỆN SGUni");
 
+        jLabel1.setText("Xin chào quản trị viên");
+
+        nameAdmin.setText("QUẢN TRỊ VIÊN");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnBookMng, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnReaderMng, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                    .addComponent(btnBookOrd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnAdminMng, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAnalysis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(19, 19, 19))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(126, 126, 126)
-                .addComponent(jLabel2)
-                .addGap(35, 35, 35)
-                .addComponent(btnLogOut)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(105, 105, 105)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nameAdmin)))
+                        .addGap(35, 35, 35)
+                        .addComponent(btnLogOut)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnBookMng, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUserMng, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBookOrd, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
+                        .addGap(23, 23, 23))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAnalysis, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(151, 151, 151))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameAdmin))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)))
+                        .addGap(26, 26, 26))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBookMng, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReserve, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReaderMng, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdminMng, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnBookOrd, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
-                    .addComponent(btnAnalysis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnUserMng, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBookOrd, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnAnalysis, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
         
         setLocationRelativeTo(null);
-    }// </editor-fold>                        
+    }// </editor-fold>                                               
 
+    private String getAdminName(String username) {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+            Document query = new Document("tentk", username);
+            Document result = collection.find(query).first();
+
+            if (result != null) {
+                return result.getString("ten");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
     private void btnBookMngActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        BookManagement bm = new BookManagement();
+        BookManagement bm = new BookManagement(loggedInUsername);
         bm.setVisible(true);
         
         this.dispose();
-    }                                          
-
-    private void btnReaderMngActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        ReaderManagement rm = new ReaderManagement();
-        rm.setVisible(true);
-        
-        this.dispose();
-    }                                            
+    }                                                                                 
 
     private void btnReserveActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        ReserveBook rb = new ReserveBook();
+        ReserveBook rb = new ReserveBook(loggedInUsername);
         rb.setVisible(true);
         
         this.dispose();
     }
     
-    private void btnAdminMngActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        AdminManagement am = new AdminManagement();
-        am.setVisible(true);
+    private void btnUserMngActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        UserManagement um = new UserManagement(loggedInUsername);
+        um.setVisible(true);
         
         this.dispose();
     } 
     
     private void btnAnalysisActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        Report rp = new Report();
+        Report rp = new Report(loggedInUsername);
         rp.setVisible(true);
         
         this.dispose();
     }
     
     private void btnBookOrdActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+        BrManagement bm = new BrManagement(loggedInUsername);
+        bm.setVisible(true);
+        
+        this.dispose();
     } 
     
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {                                           
@@ -225,19 +261,21 @@ public class AdminForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminForm().setVisible(true);
+                new AdminForm(loggedInUsername).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton btnAdminMng;
     private javax.swing.JButton btnAnalysis;
     private javax.swing.JButton btnBookMng;
     private javax.swing.JButton btnBookOrd;
     private javax.swing.JButton btnLogOut;
-    private javax.swing.JButton btnReaderMng;
+    private javax.swing.JButton btnUserMng;
     private javax.swing.JButton btnReserve;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel nameAdmin;
+    private static String loggedInUsername;
     // End of variables declaration                   
 }

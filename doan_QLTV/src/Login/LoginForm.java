@@ -5,7 +5,6 @@
 package Login;
 
 import Admin.AdminForm;
-import Reader.ReaderForm;
 import User.UserForm;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -120,6 +119,8 @@ public class LoginForm extends javax.swing.JFrame {
         );
 
         pack();
+        
+        setLocationRelativeTo(null);
     }// </editor-fold>                        
 
     public String getLoggedInUsername() {
@@ -144,7 +145,9 @@ public class LoginForm extends javax.swing.JFrame {
             if (authenticateAdmin(username, password)) {
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
                 
-                AdminForm af = new AdminForm();
+                loggedInUsername = username;
+                
+                AdminForm af = new AdminForm(loggedInUsername);
                 af.setVisible(true);
                 
                 this.dispose();
@@ -183,7 +186,7 @@ public class LoginForm extends javax.swing.JFrame {
         MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
         MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
 
-        Document reader = collection.find(Filters.and(Filters.eq("tentk", username), Filters.eq("matkhau", password), Filters.eq("vaitro", "nguoidung")))
+        Document reader = collection.find(Filters.and(Filters.eq("tentk", username), Filters.eq("matkhau", password), Filters.eq("vaitro", "docgia")))
                 .first();
 
         return reader != null;

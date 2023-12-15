@@ -70,7 +70,7 @@ public class UserOdBook extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Mã sách", "Tên sách", "Thể loại", "Nhà xuất bản", "Giá sách"
+                "Mã sách", "Tên sách", "Thể loại", "Nhà xuất bản"
             }
         ));
         jScrollPane1.setViewportView(bookList);

@@ -28,7 +28,8 @@ public class BookManagement extends javax.swing.JFrame {
     /**
      * Creates new form BookManagement_GUI
      */
-    public BookManagement() {
+    public BookManagement(String username) {
+        this.loggedInUsername = username;
         initComponents();
         setTitle("Thư viện SGUni");
     }
@@ -382,7 +383,7 @@ public class BookManagement extends javax.swing.JFrame {
     }
     
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        AdminForm af = new AdminForm();
+        AdminForm af = new AdminForm(loggedInUsername);
         af.setVisible(true);
         
         this.dispose();
@@ -653,7 +654,7 @@ public class BookManagement extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BookManagement().setVisible(true);
+                new BookManagement(loggedInUsername).setVisible(true);
             }
         });
     }
@@ -698,4 +699,5 @@ public class BookManagement extends javax.swing.JFrame {
     private javax.swing.JTextField publisherField;
     private javax.swing.JComboBox<String> stateField;
     private javax.swing.JTextField searchField;                 
+    private static String loggedInUsername;
 }

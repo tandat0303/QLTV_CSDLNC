@@ -24,7 +24,7 @@ public class EditAdmin extends JDialog {
     public EditAdmin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setTitle("Sửa thông tin người quản trị");
+        setTitle("Sửa thông tin người dùng");
     }
 
     /**
@@ -64,13 +64,13 @@ public class EditAdmin extends JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit-reader.png"))); // NOI18N
-        jLabel1.setText("      SỬA THÔNG TIN QUẢN TRỊ VIÊN   ");
+        jLabel1.setText("      SỬA THÔNG TIN NGƯỜI DÙNG   ");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin người quản trị"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin người dùng"));
 
-        jLabel2.setText("Mã Người quản trị:");
+        jLabel2.setText("Mã người dùng:");
 
-        jLabel3.setText("Tên Người quản trị:");
+        jLabel3.setText("Họ tên:");
 
         jLabel5.setText("Giới tính:");
 

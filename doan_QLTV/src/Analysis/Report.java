@@ -20,7 +20,8 @@ public class Report extends javax.swing.JFrame {
     /**
      * Creates new form Report_GUI
      */
-    public Report() {
+    public Report(String username) {
+        this.loggedInUsername = username;
         initComponents();
         setTitle("Thư viện SGUni");
     }
@@ -256,7 +257,7 @@ public class Report extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        AdminForm af = new AdminForm();
+        AdminForm af = new AdminForm(loggedInUsername);
         af.setVisible(true);
         
         this.dispose();
@@ -299,7 +300,7 @@ public class Report extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Report().setVisible(true);
+                new Report(loggedInUsername).setVisible(true);
             }
         });
     }
@@ -332,5 +333,6 @@ public class Report extends javax.swing.JFrame {
     private javax.swing.JTextField returnReader;
     private javax.swing.JTextField selfBook;
     private javax.swing.JTextField totalReader;
+    private static String loggedInUsername;
     // End of variables declaration                   
 }
