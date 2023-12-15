@@ -1,0 +1,34 @@
+[{
+  "_id": {
+    "$oid": "6575cba1098abe6dce9d6c55"
+  },
+  "manguoidung": "QTV01",
+  "vaitro": "quantrivien",
+  "tentk": "admin123",
+  "matkhau": "12345",
+  "ten": "Trương Tấn Đạt",
+  "tuoi": 20,
+  "gioitinh": "Nam",
+  "ngaysinh": 5,
+  "diachi": "HCM",
+  "email": "ls17189a3.11@gmail.com",
+  "sodt": "0383161867"
+},
+{
+  "_id": {
+    "$oid": "6575cba1098abe6dce9d6c54"
+  },
+  "manguoidung": "ND01",
+  "vaitro": "nguoidung",
+  "tentk": "nguoidung123",
+  "matkhau": "12345",
+  "ten": "Hoàng",
+  "tuoi": 20,
+  "gioitinh": "Nam",
+  "ngaysinh": {
+    "$date": "2003-03-02T17:00:00.000Z"
+  },
+  "diachi": "HCM",
+  "email": "hvu123@gmail.com",
+  "sodt": "0383654584"
+}]

@@ -52,8 +52,6 @@ public class EditBook extends JDialog {
         comboState = new javax.swing.JComboBox<>();
         btnUpdate = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-
-        isbnField.setEditable(false);
         
         jLabel4.setText("jLabel4");
 
