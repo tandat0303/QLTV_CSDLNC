@@ -12,6 +12,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import javax.swing.JOptionPane;
 import org.bson.Document;
 
 /**
@@ -30,9 +31,12 @@ public class AdminForm extends javax.swing.JFrame {
         
         String adminName = getAdminName(username);
         if (adminName != null) {
+            btnLogOut.setText("Đăng xuất");
             nameAdmin.setText(adminName);
         } else {
-            nameAdmin.setText("QUẢN TRỊ VIÊN");
+            btnLogOut.setText("Đăng nhập");
+            jLabel1.setVisible(false);
+            nameAdmin.setVisible(false);
         }
     }
 
@@ -190,6 +194,11 @@ public class AdminForm extends javax.swing.JFrame {
     }
     
     private void btnBookMngActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        if (loggedInUsername == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng đăng nhập để tiếp tục.");
+            return;
+        }
+        
         BookManagement bm = new BookManagement(loggedInUsername);
         bm.setVisible(true);
         
@@ -197,6 +206,11 @@ public class AdminForm extends javax.swing.JFrame {
     }                                                                                 
 
     private void btnReserveActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        if (loggedInUsername == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng đăng nhập để tiếp tục.");
+            return;
+        }
+        
         ReserveBook rb = new ReserveBook(loggedInUsername);
         rb.setVisible(true);
         
@@ -204,6 +218,11 @@ public class AdminForm extends javax.swing.JFrame {
     }
     
     private void btnUserMngActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        if (loggedInUsername == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng đăng nhập để tiếp tục.");
+            return;
+        }
+        
         UserManagement um = new UserManagement(loggedInUsername);
         um.setVisible(true);
         
@@ -211,6 +230,11 @@ public class AdminForm extends javax.swing.JFrame {
     } 
     
     private void btnAnalysisActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        if (loggedInUsername == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng đăng nhập để tiếp tục.");
+            return;
+        }
+        
         Report rp = new Report(loggedInUsername);
         rp.setVisible(true);
         
@@ -218,6 +242,11 @@ public class AdminForm extends javax.swing.JFrame {
     }
     
     private void btnBookOrdActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        if (loggedInUsername == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng đăng nhập để tiếp tục.");
+            return;
+        }
+        
         BrManagement bm = new BrManagement(loggedInUsername);
         bm.setVisible(true);
         

@@ -175,7 +175,7 @@ public class LoginForm extends javax.swing.JFrame {
         MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
         MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
 
-        Document admin = collection.find(Filters.and(Filters.eq("tentk", username), Filters.eq("matkhau", password), Filters.eq("vaitro", "quantrivien")))
+        Document admin = collection.find(Filters.and(Filters.eq("tentk", username), Filters.eq("matkhau", password), Filters.eq("vaitro", "Quản trị viên")))
                 .first();
 
         return admin != null;
@@ -186,7 +186,7 @@ public class LoginForm extends javax.swing.JFrame {
         MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
         MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
 
-        Document reader = collection.find(Filters.and(Filters.eq("tentk", username), Filters.eq("matkhau", password), Filters.eq("vaitro", "docgia")))
+        Document reader = collection.find(Filters.and(Filters.eq("tentk", username), Filters.eq("matkhau", password), Filters.eq("vaitro", "Độc giả")))
                 .first();
 
         return reader != null;
