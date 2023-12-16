@@ -20,8 +20,9 @@ public class EditBook extends JDialog {
     /**
      * Creates new form EditBook_GUI
      */
-    public EditBook(java.awt.Frame parent, boolean modal) {
+    public EditBook(java.awt.Frame parent, boolean modal, String id) {
         super(parent, modal);
+        this.id = id;
         initComponents();
         setTitle("Chỉnh sửa thông tin sách");
     }
@@ -188,7 +189,8 @@ public class EditBook extends JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>                        
 
-    public void setBookInfo(String isbn, String name, String category, String publisher, String price, String state) {
+    public void setBookInfo(String id, String isbn, String name, String category, String publisher, String price, String state) {
+        this.id = id;
         isbnField.setText(isbn);
         nameField.setText(name);
         comboCategory.setSelectedItem(category);
@@ -221,16 +223,14 @@ public class EditBook extends JDialog {
                     JOptionPane.showMessageDialog(this, "Vui lòng nhập lại giá sách", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                
+
                 try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
                     MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
                     MongoCollection<Document> collection = database.getCollection("qlySach");
-                    
-                    if (!newIsbn.equals(isbnField.getText())) {
-                        if (collection.countDocuments(Filters.eq("masach", newIsbn)) > 0) {
-                            JOptionPane.showMessageDialog(this, "Mã sách mới đã tồn tại. Vui lòng chọn một mã sách khác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
+
+                    if (!newIsbn.equals(isbnField.getText()) && collection.countDocuments(Filters.eq("masach", newIsbn)) > 0) {
+                        JOptionPane.showMessageDialog(this, "Mã sách mới đã tồn tại. Vui lòng chọn một mã sách khác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
 
                     Document book = new Document("masach", newIsbn)
@@ -240,7 +240,7 @@ public class EditBook extends JDialog {
                             .append("giasach", price)
                             .append("trangthai", state);
 
-                    collection.replaceOne(Filters.eq("masach", isbnField.getText()), book);
+                    collection.replaceOne(Filters.eq("_id", new ObjectId(id)), book);
                 }
 
                 JOptionPane.showMessageDialog(this, "Cập nhật thông tin sách thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -289,7 +289,7 @@ public class EditBook extends JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EditBook dialog = new EditBook(new javax.swing.JFrame(), true);
+                EditBook dialog = new EditBook(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -319,5 +319,6 @@ public class EditBook extends JDialog {
     private javax.swing.JTextField priceField;
     private javax.swing.JTextField publisherField;
     private javax.swing.JComboBox<String> comboState;
+    private String id;
     // End of variables declaration                   
 }

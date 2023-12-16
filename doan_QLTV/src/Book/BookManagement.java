@@ -503,12 +503,33 @@ public class BookManagement extends javax.swing.JFrame {
             String publisher = bookList.getValueAt(selectedRow, 3).toString();
             String price = bookList.getValueAt(selectedRow, 4).toString();
             String state = bookList.getValueAt(selectedRow, 5).toString();
+            String id = getDocumentId(selectedRow);
 
-            EditBook editBookFrame = new EditBook(this, true);
-            editBookFrame.setBookInfo(isbn, name, category, publisher, price, state);
+            EditBook editBookFrame = new EditBook(this, true, id);
+            editBookFrame.setBookInfo(id, isbn, name, category, publisher, price, state);
             editBookFrame.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn sách để sửa.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private String getDocumentId(int selectedRow) {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlySach");
+
+            String isbn = bookList.getValueAt(selectedRow, 0).toString();
+
+            Document document = collection.find(Filters.eq("masach", isbn)).first();
+            String id = document.getObjectId("_id").toString();
+
+            mongoClient.close();
+
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
