@@ -1,0 +1,15 @@
+[{
+  "_id": {
+    "$oid": "65780c43bff2088ddc48e951"
+  },
+  "manguoidung": "DG01",
+  "ten": "Huỳnh Nam",
+  "masach": "TN01",
+  "tensach": "Dế Mèn phiêu lưu kí",
+  "ngaymuon": {
+    "$date": "2003-03-02T17:00:00.000Z"
+  },
+  "ngayhentra": {
+    "$date": "2003-03-02T17:00:00.000Z"
+  }
+}]

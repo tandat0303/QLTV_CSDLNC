@@ -17,6 +17,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
+import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -242,7 +243,7 @@ public class UserManagement extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        infoList.setModel(new javax.swing.table.DefaultTableModel(
+        infoList.setModel(new NonEditableTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
@@ -375,8 +376,53 @@ public class UserManagement extends javax.swing.JFrame {
         pack();
         
         setLocationRelativeTo(null);
+        
+        loadData();
     }// </editor-fold>                        
 
+    private void loadData() {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+            FindIterable<Document> documents = collection.find();
+
+            DefaultTableModel model = (DefaultTableModel) infoList.getModel();
+            model.setRowCount(0);
+
+            for (Document document : documents) {
+                String id = document.getString("manguoidung");
+                String name = document.getString("ten");
+                String position = document.getString("vaitro");
+                String userName = document.getString("tentk");
+                Date dateChooser = document.getDate("ngaysinh");
+                String sex = document.getString("gioitinh");
+                int age = document.getInteger("tuoi");
+                String address = document.getString("diachi");
+                String email = document.getString("email");
+                String phone = document.getString("sodt");
+
+                model.addRow(new Object[]{id, name, position, userName, dateChooser, sex, age, address, email, phone});
+            }
+
+            mongoClient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static class NonEditableTableModel extends DefaultTableModel {
+        public NonEditableTableModel(Object[][] data, Object[] columnNames) {
+            super(data, columnNames);
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    }
+    
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {                                        
         AdminForm af = new AdminForm(loggedInUsername);
         af.setVisible(true);
