@@ -25,6 +25,8 @@ public class EditBook extends JDialog {
         this.id = id;
         initComponents();
         setTitle("Chỉnh sửa thông tin sách");
+        
+        nameField.requestFocusInWindow();
     }
 
     /**
@@ -51,9 +53,10 @@ public class EditBook extends JDialog {
         priceField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         comboState = new javax.swing.JComboBox<>();
+        btnCheckISBN = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        
+
         jLabel4.setText("jLabel4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -69,7 +72,7 @@ public class EditBook extends JDialog {
 
         jLabel5.setText("Thể loại:");
 
-        comboCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Thiếu nhi", "Văn hóa xã hội", "Lịch sử", "Tiểu sử, tự truyện", "Trinh thám" }));
+        comboCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Thiếu nhi", "Văn hóa xã hội", "Lịch sử", "Tiểu sử, tự truyện", "Trinh thám" }));
 
         jLabel6.setText("Nhà xuất bản:");
 
@@ -77,9 +80,17 @@ public class EditBook extends JDialog {
 
         priceField.setText("0");
 
-        jLabel8.setText("Số lượng:");
+        jLabel8.setText("Trạng thái:");
 
         comboState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đã nhập", "Chưa nhập" }));
+
+        btnCheckISBN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/check.png"))); // NOI18N
+        btnCheckISBN.setText("Kiểm tra");
+        btnCheckISBN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckISBNActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,10 +101,9 @@ public class EditBook extends JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
                 .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -102,8 +112,10 @@ public class EditBook extends JDialog {
                     .addComponent(comboCategory, 0, 255, Short.MAX_VALUE)
                     .addComponent(publisherField)
                     .addComponent(priceField)
-                    .addComponent(comboState))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(comboState, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnCheckISBN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,7 +123,8 @@ public class EditBook extends JDialog {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(isbnField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(isbnField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCheckISBN, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -156,19 +169,19 @@ public class EditBook extends JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGap(88, 88, 88)
                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(68, 68, 68))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(149, 149, 149))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,7 +192,7 @@ public class EditBook extends JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                     .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(14, 14, 14))
         );
@@ -187,7 +200,7 @@ public class EditBook extends JDialog {
         pack();
         
         setLocationRelativeTo(null);
-    }// </editor-fold>                        
+    }// </editor-fold>                                    
 
     public void setBookInfo(String id, String isbn, String name, String category, String publisher, String price, String state) {
         this.id = id;
@@ -200,14 +213,14 @@ public class EditBook extends JDialog {
     }
 
     
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {
+   private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {
         int confirmResult = JOptionPane.showConfirmDialog(this, "Bạn có muốn cập nhật thông tin sách?", "Xác nhận cập nhật", JOptionPane.YES_NO_OPTION);
 
         if (confirmResult == JOptionPane.YES_OPTION) {
             String newIsbn = isbnField.getText().trim();
 
             if (nameField.getText().isEmpty() || comboCategory.getSelectedItem().toString().isEmpty()
-                || publisherField.getText().isEmpty() || priceField.getText().isEmpty() || comboState.getSelectedItem().toString().isEmpty()) {
+                    || publisherField.getText().isEmpty() || priceField.getText().isEmpty() || comboState.getSelectedItem().toString().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin sách.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -228,11 +241,6 @@ public class EditBook extends JDialog {
                     MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
                     MongoCollection<Document> collection = database.getCollection("qlySach");
 
-                    if (!newIsbn.equals(isbnField.getText()) && collection.countDocuments(Filters.eq("masach", newIsbn)) > 0) {
-                        JOptionPane.showMessageDialog(this, "Mã sách mới đã tồn tại. Vui lòng chọn một mã sách khác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
                     Document book = new Document("masach", newIsbn)
                             .append("tensach", name)
                             .append("theloai", category)
@@ -252,6 +260,33 @@ public class EditBook extends JDialog {
             }
         } else if (confirmResult == JOptionPane.NO_OPTION) {
             return;
+        }
+    }
+    
+    private void btnCheckISBNActionPerformed(java.awt.event.ActionEvent evt) {
+        String newIsbn = isbnField.getText().trim();
+
+        if (newIsbn.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã sách để kiểm tra.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlySach");
+
+            if (collection.countDocuments(Filters.eq("masach", newIsbn)) > 0) {
+                JOptionPane.showMessageDialog(this, "Mã sách đã tồn tại. Vui lòng chọn một mã sách khác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                isISBNValid = false;
+                btnUpdate.setEnabled(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Mã sách hợp lệ. Bạn có thể tiếp tục cập nhật thông tin sách.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                isISBNValid = true;
+                btnUpdate.setEnabled(true);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi kiểm tra mã sách.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
     
@@ -304,6 +339,7 @@ public class EditBook extends JDialog {
     // Variables declaration - do not modify                     
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnCheckISBN;
     private javax.swing.JComboBox<String> comboCategory;
     private javax.swing.JTextField isbnField;
     private javax.swing.JLabel jLabel1;
@@ -320,5 +356,6 @@ public class EditBook extends JDialog {
     private javax.swing.JTextField publisherField;
     private javax.swing.JComboBox<String> comboState;
     private String id;
+    private boolean isISBNValid = false;
     // End of variables declaration                   
 }

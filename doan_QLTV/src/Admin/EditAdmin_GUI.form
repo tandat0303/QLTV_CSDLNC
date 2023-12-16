@@ -36,16 +36,16 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
               <Component id="btnUpdate" min="-2" pref="110" max="-2" attributes="0"/>
-              <EmptySpace pref="106" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="btnCancel" min="-2" pref="110" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
           </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,10 +56,10 @@
               <Component id="jLabel1" min="-2" pref="34" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="btnUpdate" pref="46" max="32767" attributes="0"/>
-                  <Component id="btnCancel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnCancel" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                  <Component id="btnUpdate" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
           </Group>
@@ -72,14 +72,14 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/img/edit-reader.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="      S&#x1eec;A TH&#xd4;NG TIN QU&#x1ea2;N TR&#x1eca; VI&#xca;N   "/>
+        <Property name="text" type="java.lang.String" value="      S&#x1eec;A TH&#xd4;NG TIN NG&#x1af;&#x1edc;I D&#xd9;NG "/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Th&#xf4;ng tin ng&#x1b0;&#x1edd;i qu&#x1ea3;n tr&#x1ecb;"/>
+            <TitledBorder title="Th&#xf4;ng tin ng&#x1b0;&#x1edd;i d&#xf9;ng"/>
           </Border>
         </Property>
       </Properties>
@@ -90,6 +90,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jLabel10" max="32767" attributes="0"/>
                       <Component id="jLabel8" max="32767" attributes="0"/>
                       <Component id="jLabel7" max="32767" attributes="0"/>
                       <Component id="jLabel5" max="32767" attributes="0"/>
@@ -111,8 +112,9 @@
                           <Component id="radioWomen" min="-2" pref="98" max="-2" attributes="0"/>
                       </Group>
                       <Component id="phoneField" alignment="0" max="32767" attributes="0"/>
+                      <Component id="ageField" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="34" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -135,22 +137,27 @@
                       <Component id="radioMan" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="radioWomen" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jLabel10" max="32767" attributes="0"/>
+                      <Component id="ageField" pref="28" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel6" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="dateField" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                  <EmptySpace pref="34" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel7" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="addressField" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="42" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel8" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="emailField" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabel9" max="32767" attributes="0"/>
                       <Component id="phoneField" pref="29" max="32767" attributes="0"/>
@@ -163,14 +170,14 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="M&#xe3; Ng&#x1b0;&#x1edd;i qu&#x1ea3;n tr&#x1ecb;:"/>
+            <Property name="text" type="java.lang.String" value="M&#xe3; Ng&#x1b0;&#x1edd;i d&#xf9;ng:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="idField">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="T&#xea;n Ng&#x1b0;&#x1edd;i qu&#x1ea3;n tr&#x1ecb;:"/>
+            <Property name="text" type="java.lang.String" value="T&#xea;n Ng&#x1b0;&#x1edd;i d&#xf9;ng:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="nameField">
@@ -217,6 +224,13 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="phoneField">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel10">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Tu&#x1ed5;i:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="ageField">
         </Component>
       </SubComponents>
     </Container>
