@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
+import java.util.Date;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -21,10 +22,13 @@ public class EditAdmin extends JDialog {
     /**
      * Creates new form EditBook_GUI
      */
-    public EditAdmin(java.awt.Frame parent, boolean modal) {
+    public EditAdmin(java.awt.Frame parent, boolean modal, String id) {
         super(parent, modal);
+        this.id = id;
         initComponents();
         setTitle("Sửa thông tin người dùng");
+        
+        nameField.requestFocusInWindow();
     }
 
     /**
@@ -56,15 +60,16 @@ public class EditAdmin extends JDialog {
         phoneField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         ageField = new javax.swing.JTextField();
+        btnCheckID = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
-        dateChooser.setDateFormatString("dd/MM/yyyy");
-        
         jLabel4.setText("jLabel4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        dateChooser.setDateFormatString("dd/MM/yyyy");
+        
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit-reader.png"))); // NOI18N
         jLabel1.setText("      SỬA THÔNG TIN NGƯỜI DÙNG ");
 
@@ -89,6 +94,14 @@ public class EditAdmin extends JDialog {
         jLabel9.setText("Số điện thoại:");
 
         jLabel10.setText("Tuổi:");
+
+        btnCheckID.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/check.png"))); // NOI18N
+        btnCheckID.setText("Kiểm tra");
+        btnCheckID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckIDActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -118,7 +131,9 @@ public class EditAdmin extends JDialog {
                         .addComponent(radioWomen, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(phoneField)
                     .addComponent(ageField))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(btnCheckID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,7 +141,8 @@ public class EditAdmin extends JDialog {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCheckID, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -144,7 +160,7 @@ public class EditAdmin extends JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -169,6 +185,11 @@ public class EditAdmin extends JDialog {
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/multiply.png"))); // NOI18N
         btnCancel.setText("Hủy");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -179,15 +200,15 @@ public class EditAdmin extends JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93)
+                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68))
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(129, 129, 129))
+                .addGap(179, 179, 179))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,10 +229,138 @@ public class EditAdmin extends JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>                   
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
-    }                                         
+    public void setUserInfo(String id, String idUser, String name, String position, Date dob, String sex, int age, String address, String email, String phone) {
+        this.id = id;
+        this.idField.setText(idUser);
+        this.nameField.setText(name);
 
+        if (dob != null) {
+            this.dateChooser.setDate(dob);
+        }
+
+        if ("Nam".equals(sex)) {
+            this.radioMan.setSelected(true);
+        } else if ("Nữ".equals(sex)) {
+            this.radioWomen.setSelected(true);
+        }
+
+        this.ageField.setText(Integer.toString(age));
+        this.addressField.setText(address);
+        this.emailField.setText(email);
+        this.phoneField.setText(phone);
+    }
+    
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        String idUser = idField.getText();
+        String name = nameField.getText();
+        Date dob = dateChooser.getDate();
+        String sex = radioMan.isSelected() ? "Nam" : (radioWomen.isSelected() ? "Nữ" : "");
+        int age;
+        String address = addressField.getText();
+        String email = emailField.getText();
+        String phone = phoneField.getText();
+
+        try {
+            age = Integer.parseInt(ageField.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập lại tuổi!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (!isNumeric(phone)) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập lại số điện thoại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (checkUserIdExists(idUser) && !idUser.equals(idField.getText())) {
+            JOptionPane.showMessageDialog(this, "Mã người dùng đã tồn tại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (idUser.isEmpty() || name.isEmpty() || dob == null || sex.isEmpty() || age <= 0 || address.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn cập nhật thông tin?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            if (updateDataToMongo(id, idUser, name, dob, sex, age, address, email, phone)) {
+                JOptionPane.showMessageDialog(this, "Cập nhật thông tin thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật thông tin thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    private boolean updateDataToMongo(String id, String idUser, String name, Date dob, String sex, int age, String address, String email, String phone) {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+            Document updatedDocument = new Document("manguoidung", idUser)
+                    .append("ten", name)
+                    .append("ngaysinh", dob)
+                    .append("gioitinh", sex)
+                    .append("tuoi", age)
+                    .append("diachi", address)
+                    .append("email", email)
+                    .append("sodt", phone);
+
+            collection.updateOne(Filters.eq("_id", new ObjectId(id)), new Document("$set", updatedDocument));
+
+            mongoClient.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void btnCheckIDActionPerformed(java.awt.event.ActionEvent evt) {
+        String newUserId = idField.getText();
+
+        if (checkUserIdExists(newUserId)) {
+            JOptionPane.showMessageDialog(this, "Mã người dùng đã tồn tại. Vui lòng chọn mã khác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            btnUpdate.setEnabled(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Mã người dùng hợp lệ.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            btnUpdate.setEnabled(true);
+        }
+    }
+
+    private boolean checkUserIdExists(String newUserId) {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+            Document existingUser = collection.find(Filters.eq("manguoidung", newUserId)).first();
+
+            mongoClient.close();
+
+            return existingUser != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    private boolean isNumeric(String str) {
+        try {
+            Long.parseLong(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        this.dispose();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -242,7 +391,7 @@ public class EditAdmin extends JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EditAdmin dialog = new EditAdmin(new javax.swing.JFrame(), true);
+                EditAdmin dialog = new EditAdmin(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -277,5 +426,7 @@ public class EditAdmin extends JDialog {
     private javax.swing.JTextField phoneField;
     private javax.swing.JRadioButton radioMan;
     private javax.swing.JRadioButton radioWomen;
+    private javax.swing.JButton btnCheckID;
+    private String id;
     // End of variables declaration                   
 }

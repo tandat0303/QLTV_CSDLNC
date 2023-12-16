@@ -15,10 +15,12 @@ import com.mongodb.BasicDBObject;
  */
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -342,7 +344,7 @@ public class BookManagement extends javax.swing.JFrame {
         
         loadData();
     }// </editor-fold>                        
-
+    
     private void loadData() {
         try {
             MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");

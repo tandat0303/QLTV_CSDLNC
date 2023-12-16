@@ -9,26 +9,30 @@
   "ten": "Trương Tấn Đạt",
   "tuoi": 20,
   "gioitinh": "Nam",
-  "ngaysinh": 5,
+  "ngaysinh": {
+    "$date": "2003-03-02T17:00:00.000Z"
+  },
   "diachi": "HCM",
   "email": "ls17189a3.11@gmail.com",
   "sodt": "0383161867"
 },
 {
   "_id": {
-    "$oid": "6575cba1098abe6dce9d6c54"
+    "$oid": "6575cba1098abe6dce9d6c56"
   },
-  "manguoidung": "ND01",
+  "manguoidung": "ND02",
   "vaitro": "Độc giả",
   "tentk": "nguoidung123",
   "matkhau": "12345",
   "ten": "Hoàng",
-  "tuoi": 20,
+  "tuoi": 22,
   "gioitinh": "Nam",
   "ngaysinh": {
-    "$date": "2003-03-02T17:00:00.000Z"
+    "$date": "2003-03-24T17:00:00.000Z"
   },
   "diachi": "HCM",
   "email": "hvu123@gmail.com",
-  "sodt": "0383654584"
+  "sodt": "0356914845",
+  "sodienthoai": "383654584",
+  "tennguoidung": "Hoànn"
 }]

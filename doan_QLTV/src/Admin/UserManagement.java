@@ -11,12 +11,16 @@ package Admin;
  */
 import Admin.AdminForm;
 import Login.LoginForm;
+import com.mongodb.BasicDBObject;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Dimension;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
+import java.text.SimpleDateFormat;
+import java.util.regex.Pattern;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -85,11 +89,13 @@ public class UserManagement extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        dateChooser.setDateFormatString("dd/MM/yyyy");
+        
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm kiếm"));
 
         jLabel1.setText("Tìm kiếm theo:");
 
-        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Mã Người dùng", "Họ Tên", "Số điện thoại" }));
+        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Mã Người dùng", "Tên Người dùng", "Số điện thoại", "Vai trò" }));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
         btnSearch.setText("Tìm kiếm");
@@ -254,6 +260,9 @@ public class UserManagement extends javax.swing.JFrame {
                 "Mã người dùng", "Tên người dùng", "Vai trò", "Tên tài khoản", "Ngày sinh", "Giới tính", "Tuổi", "Địa chỉ", "Email", "Số điện thoại"
             }
         ));
+        
+        infoList.getColumnModel().getColumn(4).setCellRenderer(new DateCellRenderer());
+        
         jScrollPane1.setViewportView(infoList);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Chức năng"));
@@ -372,7 +381,7 @@ public class UserManagement extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
+        
         pack();
         
         setLocationRelativeTo(null);
@@ -380,6 +389,19 @@ public class UserManagement extends javax.swing.JFrame {
         loadData();
     }// </editor-fold>                        
 
+    private static class DateCellRenderer extends DefaultTableCellRenderer {
+
+        private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        @Override
+        protected void setValue(Object value) {
+            if (value instanceof java.util.Date) {
+                value = sdf.format(value);
+            }
+            super.setValue(value);
+        }
+    }
+    
     private void loadData() {
         try {
             MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
@@ -438,24 +460,305 @@ public class UserManagement extends javax.swing.JFrame {
     }                                                                                
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+        if (!idField.getText().isEmpty() || !nameField.getText().isEmpty() || 
+            manRadio.isSelected() || womenRadio.isSelected() || dateChooser.getDate() != null ||
+            comboPosition.getSelectedIndex() != 0 || !usnameField.getText().isEmpty() || 
+            !passField.getText().isEmpty() || !ageField.getText().isEmpty() ||
+            !addressField.getText().isEmpty() || !emailField.getText().isEmpty() ||
+            !phoneField.getText().isEmpty()) {
+
+            int result = JOptionPane.showConfirmDialog(this, 
+                    "Bạn có muốn tiếp tục thêm người dùng không?", 
+                    "Xác nhậni", 
+                    JOptionPane.YES_NO_OPTION);
+
+            if (result == JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
+
+        refresh();
+
+        JOptionPane.showMessageDialog(this, "Làm mới thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }       
     
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }   
+        if (idField.getText().isEmpty() || nameField.getText().isEmpty() ||
+            (!manRadio.isSelected() && !womenRadio.isSelected()) ||
+            dateChooser.getDate() == null || comboPosition.getSelectedIndex() == 0 ||
+            usnameField.getText().isEmpty() || passField.getText().isEmpty() ||
+            passField.getText().isEmpty() || passField.getText().isEmpty() ||
+            ageField.getText().isEmpty() || addressField.getText().isEmpty() ||
+            emailField.getText().isEmpty() || phoneField.getText().isEmpty()) {
+
+            StringBuilder missingFields = new StringBuilder("Vui lòng nhập đầy đủ thông tin sau để thêm:\n");
+
+            if (idField.getText().isEmpty()) missingFields.append("- Mã người dùng\n");
+            if (nameField.getText().isEmpty()) missingFields.append("- Tên người dùng\n");
+            if (!manRadio.isSelected() && !womenRadio.isSelected()) missingFields.append("- Giới tính\n");
+            if (dateChooser.getDate() == null) missingFields.append("- Ngày sinh\n");
+            if (comboPosition.getSelectedIndex() == 0) missingFields.append("- Vai trò\n");
+            if (usnameField.getText().isEmpty()) missingFields.append("- Tên tài khoản\n");
+            if (passField.getText().isEmpty()) missingFields.append("- Mật khẩu\n");
+            if (ageField.getText().isEmpty()) missingFields.append("- Tuổi\n");
+            if (addressField.getText().isEmpty()) missingFields.append("- Địa chỉ\n");
+            if (emailField.getText().isEmpty()) missingFields.append("- Email\n");
+            if (phoneField.getText().isEmpty()) missingFields.append("- Số điện thoại\n");
+
+            JOptionPane.showMessageDialog(this, missingFields.toString(), "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            int age = Integer.parseInt(ageField.getText());
+
+            if (age <= 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập lại tuổi!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Tuổi phải là một số!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String phoneStr = phoneField.getText();
+        if (!isNumeric(phoneStr)) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập lại số điện thoại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String phone = String.valueOf(phoneStr);
+        
+        String id = idField.getText();
+        if (isUserIdExists(id)) {
+            JOptionPane.showMessageDialog(this, "Mã người dùng đã tồn tại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String name = nameField.getText();
+        String position = comboPosition.getSelectedItem().toString();
+        String userName = usnameField.getText();
+        String password = passField.getText();
+        Date dob = dateChooser.getDate();
+        String sex = manRadio.isSelected() ? "Nam" : "Nữ";
+        int age = Integer.parseInt(ageField.getText());
+        String address = addressField.getText();
+        String email = emailField.getText();
+
+        Document document = new Document("_id", new ObjectId())
+                .append("manguoidung", id)
+                .append("ten", name)
+                .append("vaitro", position)
+                .append("tentk", userName)
+                .append("matkhau", password)
+                .append("ngaysinh", dob)
+                .append("gioitinh", sex)
+                .append("tuoi", age)
+                .append("diachi", address)
+                .append("email", email)
+                .append("sodt", phone);
+
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+            collection.insertOne(document);
+
+            JOptionPane.showMessageDialog(this, "Thêm người dùng thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+            refresh();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Thêm người dùng thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private boolean isUserIdExists(String id) {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+            long count = collection.countDocuments(Filters.eq("manguoidung", id));
+
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+        int selectedRow = infoList.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn người dùng để xóa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int result = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa người dùng này không?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            try {
+                String id = infoList.getValueAt(selectedRow, 0).toString();
+
+                MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+                MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+                MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+                collection.deleteOne(Filters.eq("manguoidung", id));
+
+                JOptionPane.showMessageDialog(this, "Xóa người dùng thành công!");
+
+                refresh();
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Xóa người dùng thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }   
     
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }   
+        int selectedRow = infoList.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn người dùng để sửa thông tin", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String idUser = infoList.getValueAt(selectedRow, 0).toString();
+        String name = infoList.getValueAt(selectedRow, 1).toString();
+        String position = infoList.getValueAt(selectedRow, 2).toString();
+        Date dob = (Date) infoList.getValueAt(selectedRow, 4);
+        String sex = infoList.getValueAt(selectedRow, 5).toString();
+        int age = (int) infoList.getValueAt(selectedRow, 6);
+        String address = infoList.getValueAt(selectedRow, 7).toString();
+        String email = infoList.getValueAt(selectedRow, 8).toString();
+        String phone = infoList.getValueAt(selectedRow, 9).toString();
+        String id = getDocumentId(selectedRow);
+
+        if (id == null) {
+            JOptionPane.showMessageDialog(this, "Không thể lấy thông tin người dùng từ MongoDB.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        EditAdmin editAdmin = new EditAdmin(this, true, id);
+        editAdmin.setUserInfo(id, idUser, name, position, dob, sex, age, address, email, phone);
+        editAdmin.setVisible(true);
+
+        loadData();
+    }
+    
+    private String getDocumentId(int selectedRow) {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+            String idUser = infoList.getValueAt(selectedRow, 0).toString();
+
+            Document document = collection.find(Filters.eq("manguoidung", idUser)).first();
+            String id = document.getObjectId("_id").toString();
+
+            mongoClient.close();
+
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }   
+        String searchCategory = comboSearch.getSelectedItem().toString();
+        String searchText = searchField.getText().trim();
+
+        if (searchCategory.isEmpty()) {
+            searchField.setText("");
+            loadData();
+            return;
+        }
+
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nhập thông tin để tìm kiếm.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+            BasicDBObject query = new BasicDBObject();
+
+            switch (searchCategory) {
+                case "Mã Người dùng":
+                    query.put("manguoidung", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+                case "Tên Người dùng":
+                    query.put("ten", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+                case "Số điện thoại":
+                    query.put("sodt", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+                case "Vai trò":
+                    query.put("vaitro", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+            }
+
+            FindIterable<Document> documents = collection.find(query);
+
+            DefaultTableModel model = (DefaultTableModel) infoList.getModel();
+            model.setRowCount(0);
+
+            for (Document document : documents) {
+                String id = document.getString("manguoidung");
+                String name = document.getString("ten");
+                String position = document.getString("vaitro");
+                String userName = document.getString("tentk");
+                Date dateChooser = document.getDate("ngaysinh");
+                String sex = document.getString("gioitinh");
+                int age = document.getInteger("tuoi");
+                String address = document.getString("diachi");
+                String email = document.getString("email");
+                String phone = document.getString("sodt");
+
+                model.addRow(new Object[]{id, name, position, userName, dateChooser, sex, age, address, email, phone});
+            }
+
+            mongoClient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi tìm kiếm sách.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void refresh() {
+        idField.setText("");
+        nameField.setText("");
+        manRadio.setSelected(false);
+        womenRadio.setSelected(false);
+        dateChooser.setDate(null);
+        comboPosition.setSelectedIndex(0);
+        usnameField.setText("");
+        passField.setText("");
+        ageField.setText("");
+        addressField.setText("");
+        emailField.setText("");
+        phoneField.setText("");
+
+        loadData();
+    }
 
     /**
      * @param args the command line arguments
