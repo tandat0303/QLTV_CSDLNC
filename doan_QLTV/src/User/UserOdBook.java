@@ -52,7 +52,7 @@ public class UserOdBook extends javax.swing.JFrame {
 
         jLabel2.setText("Tìm kiếm theo: ");
 
-        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã sách", "Tên sách", "Nhà xuất bản" }));
+        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Mã sách", "Tên sách", "Nhà xuất bản" }));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
         btnSearch.setText("Tìm kiếm");
@@ -64,13 +64,13 @@ public class UserOdBook extends javax.swing.JFrame {
 
         bookList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Mã sách", "Tên sách", "Thể loại", "Nhà xuất bản"
+                "Mã sách", "Tên sách", "Thể loại", "Nhà xuất bản", "Giá sách"
             }
         ));
         jScrollPane1.setViewportView(bookList);

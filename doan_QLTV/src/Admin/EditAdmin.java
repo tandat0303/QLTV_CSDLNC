@@ -45,7 +45,7 @@ public class EditAdmin extends JDialog {
         nameField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        dateField = new javax.swing.JTextField();
+        dateChooser = new JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         addressField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -59,6 +59,8 @@ public class EditAdmin extends JDialog {
         btnUpdate = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
+        dateChooser.setDateFormatString("dd/MM/yyyy");
+        
         jLabel4.setText("jLabel4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -107,7 +109,7 @@ public class EditAdmin extends JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(idField, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
                     .addComponent(nameField)
-                    .addComponent(dateField)
+                    .addComponent(dateChooser)
                     .addComponent(addressField)
                     .addComponent(emailField)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -141,7 +143,7 @@ public class EditAdmin extends JDialog {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -257,7 +259,7 @@ public class EditAdmin extends JDialog {
     private javax.swing.JTextField ageField;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JTextField dateField;
+    private JDateChooser dateChooser;
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField idField;
     private javax.swing.JLabel jLabel1;

@@ -77,7 +77,7 @@ public class BrManagement extends javax.swing.JFrame {
 
         jLabel1.setText("Tìm kiếm theo:");
 
-        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên người đặt", "Mã sách", "Tên sách" }));
+        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Tên người đặt", "Mã sách", "Tên sách" }));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
         btnSearch.setText("Tìm kiếm");

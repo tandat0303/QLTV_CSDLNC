@@ -130,6 +130,8 @@ public class LoginForm extends javax.swing.JFrame {
         );
 
         pack();
+        
+        setLocationRelativeTo(null);
     }// </editor-fold>                        
 
     public String getLoggedInUsername() {

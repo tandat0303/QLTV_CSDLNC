@@ -64,9 +64,7 @@ public class ReserveBook extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listTable1 = new javax.swing.JTable();
         featurePanel1 = new javax.swing.JPanel();
-        btnBorrow = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnReturnBook = new javax.swing.JButton();
         requestPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -84,6 +82,9 @@ public class ReserveBook extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        reserveDate.setDateFormatString("dd/MM/yyyy");
+        preReturnDate.setDateFormatString("dd/MM/yyyy");
+        
         searchPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm kiếm"));
 
         jLabel1.setText("Tìm kiếm theo:");
@@ -92,6 +93,11 @@ public class ReserveBook extends javax.swing.JFrame {
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
         btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout searchPanel1Layout = new javax.swing.GroupLayout(searchPanel1);
         searchPanel1.setLayout(searchPanel1Layout);
@@ -128,23 +134,12 @@ public class ReserveBook extends javax.swing.JFrame {
 
         jLabel4.setText("Ngày mượn:");
 
-        reserveDate.setDateFormatString("dd/MM/yyyy");
-        reserveDate.setPreferredSize(new Dimension(600, 30));
-
         jLabel5.setText("Mã sách:");
 
         jLabel6.setText("Tên sách:");
 
-        nameBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameBookActionPerformed(evt);
-            }
-        });
-
         jLabel7.setText("Ngày hẹn trả:");
 
-        preReturnDate.setDateFormatString("dd-MM-yyyy");
-        preReturnDate.setPreferredSize(new Dimension(600, 30));
 
         javax.swing.GroupLayout detailPanel1Layout = new javax.swing.GroupLayout(detailPanel1);
         detailPanel1.setLayout(detailPanel1Layout);
@@ -189,17 +184,19 @@ public class ReserveBook extends javax.swing.JFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(idBook, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(detailPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameReader, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameBook, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(detailPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(detailPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nameReader, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nameBook, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(detailPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reserveDate, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(preReturnDate, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(detailPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(detailPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(reserveDate, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(preReturnDate, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(23, 23, 23))
         );
 
@@ -218,41 +215,28 @@ public class ReserveBook extends javax.swing.JFrame {
 
         featurePanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Chức năng"));
 
-        btnBorrow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reservebook.png"))); // NOI18N
-        btnBorrow.setText("Mượn sách");
-        btnBorrow.addActionListener(new java.awt.event.ActionListener() {
+        btnReturnBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/returnbook.png"))); // NOI18N
+        btnReturnBook.setText("Trả sách");
+        btnReturnBook.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBorrowActionPerformed(evt);
+                btnReturnBookActionPerformed(evt);
             }
         });
-
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png"))); // NOI18N
-        btnEdit.setText("Sửa thông tin");
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/returnbook.png"))); // NOI18N
-        jButton1.setText("Trả sách");
 
         javax.swing.GroupLayout featurePanel1Layout = new javax.swing.GroupLayout(featurePanel1);
         featurePanel1.setLayout(featurePanel1Layout);
         featurePanel1Layout.setHorizontalGroup(
             featurePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(featurePanel1Layout.createSequentialGroup()
-                .addGap(122, 122, 122)
-                .addComponent(btnBorrow, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100)
-                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84))
+                .addGap(328, 328, 328)
+                .addComponent(btnReturnBook, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         featurePanel1Layout.setVerticalGroup(
             featurePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(featurePanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(featurePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBorrow, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnReturnBook, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 15, Short.MAX_VALUE))
         );
 
@@ -286,7 +270,7 @@ public class ReserveBook extends javax.swing.JFrame {
 
         jLabel8.setText("DANH SÁCH YÊU CẦU MƯỢN SÁCH");
 
-        listTable2.setModel(new NonEditableTableModel(
+        listTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -301,10 +285,8 @@ public class ReserveBook extends javax.swing.JFrame {
 
         featurePanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Chức năng"));
 
-        confirmReserve.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cf_reserve.png")));
         confirmReserve.setText("Xác nhận cho mượn");
 
-        cancelReserve.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/multiply.png")));
         cancelReserve.setText("Hủy yêu cầu");
 
         javax.swing.GroupLayout featurePanel2Layout = new javax.swing.GroupLayout(featurePanel2);
@@ -395,7 +377,7 @@ public class ReserveBook extends javax.swing.JFrame {
                 btnLogOutActionPerformed(evt);
             }
         });
-        
+       
         jMenu1.add(btnLogOut);
 
         jMenuBar1.add(jMenu1);
@@ -416,10 +398,7 @@ public class ReserveBook extends javax.swing.JFrame {
         pack();
         
         setLocationRelativeTo(null);
-        
-        loadDataToListTable1();
-        loadDataToListTable2();
-    }// </editor-fold>                        
+    }// </editor-fold>                       
 
     private void loadDataToListTable1() {
         try {
@@ -514,11 +493,11 @@ public class ReserveBook extends javax.swing.JFrame {
         }
     }
     
-    private void nameBookActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
     }                                        
 
-    private void btnBorrowActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void btnReturnBookActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
     }
     
@@ -573,8 +552,6 @@ public class ReserveBook extends javax.swing.JFrame {
 
     // Variables declaration - do not modify                     
     private javax.swing.JMenuItem btnBack;
-    private javax.swing.JButton btnBorrow;
-    private javax.swing.JButton btnEdit;
     private javax.swing.JMenuItem btnLogOut;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton cancelReserve;
@@ -585,7 +562,7 @@ public class ReserveBook extends javax.swing.JFrame {
     private javax.swing.JPanel featurePanel2;
     private javax.swing.JTextField idBook;
     private javax.swing.JTextField idReader;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnReturnBook;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

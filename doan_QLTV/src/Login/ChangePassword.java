@@ -142,6 +142,8 @@ public class ChangePassword extends javax.swing.JFrame {
         );
 
         pack();
+        
+        setLocationRelativeTo(null);
     }// </editor-fold>       
     
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {

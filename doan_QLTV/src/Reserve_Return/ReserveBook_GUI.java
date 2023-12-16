@@ -49,8 +49,6 @@ public class ReserveBook_GUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listTable1 = new javax.swing.JTable();
         featurePanel1 = new javax.swing.JPanel();
-        btnBorrow = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         requestPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -203,17 +201,6 @@ public class ReserveBook_GUI extends javax.swing.JFrame {
 
         featurePanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Chức năng"));
 
-        btnBorrow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reservebook.png"))); // NOI18N
-        btnBorrow.setText("Mượn sách");
-        btnBorrow.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBorrowActionPerformed(evt);
-            }
-        });
-
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png"))); // NOI18N
-        btnEdit.setText("Sửa thông tin");
-
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/returnbook.png"))); // NOI18N
         jButton1.setText("Trả sách");
 
@@ -222,22 +209,15 @@ public class ReserveBook_GUI extends javax.swing.JFrame {
         featurePanel1Layout.setHorizontalGroup(
             featurePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(featurePanel1Layout.createSequentialGroup()
-                .addGap(122, 122, 122)
-                .addComponent(btnBorrow, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100)
-                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84))
+                .addGap(328, 328, 328)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         featurePanel1Layout.setVerticalGroup(
             featurePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(featurePanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(featurePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBorrow, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 15, Short.MAX_VALUE))
         );
 
@@ -391,10 +371,6 @@ public class ReserveBook_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nameBookActionPerformed
 
-    private void btnBorrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrowActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBorrowActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -432,8 +408,6 @@ public class ReserveBook_GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem btnBack;
-    private javax.swing.JButton btnBorrow;
-    private javax.swing.JButton btnEdit;
     private javax.swing.JMenuItem btnLogOut;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton cancelReserve;
