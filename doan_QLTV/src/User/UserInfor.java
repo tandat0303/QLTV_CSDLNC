@@ -277,7 +277,34 @@ public class UserInfor extends javax.swing.JFrame {
     }                                                                           
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+        MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+        String newName = nameField.getText();
+        String newEmail = emailField.getText();
+        int newAge = Integer.parseInt(ageField.getText());
+        String newSex = (String) comboSex.getSelectedItem();
+        Date newDob = dateChooser.getDate();
+        String newAddress = addressField.getText();
+        String newPhone = phoneField.getText();
+
+        Document updateDocument = new Document();
+        updateDocument.append("ten", newName)
+                       .append("email", newEmail)
+                       .append("tuoi", newAge)
+                       .append("gioitinh", newSex)
+                       .append("ngaysinh", newDob)
+                       .append("diachi", newAddress)
+                       .append("sodt", newPhone);
+
+        Document query = new Document("tentk", loggedInUsername);
+
+        collection.updateOne(query, new Document("$set", updateDocument));
+
+        mongoClient.close();
+
+        JOptionPane.showMessageDialog(this, "Cập nhật thông tin thành công!");
     }                                         
 
     /**

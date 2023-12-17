@@ -535,9 +535,14 @@ public class UserManagement extends javax.swing.JFrame {
             return;
         }
         
+        String userName = usnameField.getText();
+        if (isUserNameExists(userName)) {
+            JOptionPane.showMessageDialog(this, "Tên tài khoản đã tồn tại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         String name = nameField.getText();
         String position = comboPosition.getSelectedItem().toString();
-        String userName = usnameField.getText();
         String password = passField.getText();
         Date dob = dateChooser.getDate();
         String sex = manRadio.isSelected() ? "Nam" : "Nữ";
@@ -581,6 +586,21 @@ public class UserManagement extends javax.swing.JFrame {
             MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
 
             long count = collection.countDocuments(Filters.eq("manguoidung", id));
+
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    private boolean isUserNameExists(String userName) {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+            long count = collection.countDocuments(Filters.eq("tentk", userName));
 
             return count > 0;
         } catch (Exception e) {
