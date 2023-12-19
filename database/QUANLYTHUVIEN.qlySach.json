@@ -183,7 +183,7 @@
   "theloai": "Trinh thám",
   "nhaxuatban": "Collins Crime Club",
   "giasach": 200000,
-  "trangthai": "Đã nhập"
+  "trangthai": "Chưa nhập"
 },
 {
   "_id": {
@@ -194,5 +194,5 @@
   "theloai": "Trinh thám",
   "nhaxuatban": "Doubleday",
   "giasach": 200000,
-  "trangthai": "Đã nhập"
+  "trangthai": "Chưa nhập"
 }]
