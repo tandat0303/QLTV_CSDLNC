@@ -1,5 +1,12 @@
 package User;
 import User.UserForm;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -163,8 +170,40 @@ public class UserOdBook extends javax.swing.JFrame {
         pack();
         
         setLocationRelativeTo(null);
+        
+        loadData();
     }// </editor-fold>                        
+    
+    
+     private void loadData() {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlySach");
 
+            FindIterable<Document> documents = collection.find();
+
+            DefaultTableModel model = (DefaultTableModel) bookList.getModel();
+            model.setRowCount(0);
+
+            for (Document document : documents) {
+                String isbn = document.getString("masach");
+                String name = document.getString("tensach");
+                String category = document.getString("theloai");
+                String publisher = document.getString("nhaxuatban");
+                int price = document.getInteger("giasach");
+                String state = document.getString("trangthai");
+                if("Chưa nhập".equals(state)){
+                model.addRow(new Object[]{isbn, name, category, publisher, price, state});
+                }
+            }
+
+            mongoClient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {                                        
         // TODO add your handling code here:
         UserForm af = new UserForm(loggedInUsername);
