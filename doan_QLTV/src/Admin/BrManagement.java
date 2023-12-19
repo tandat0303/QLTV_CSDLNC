@@ -5,6 +5,16 @@
 package Admin;
 
 import Login.LoginForm;
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
 
 /**
  *
@@ -32,7 +42,6 @@ public class BrManagement extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         comboSearch = new javax.swing.JComboBox<>();
@@ -57,19 +66,7 @@ public class BrManagement extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -195,11 +192,40 @@ public class BrManagement extends javax.swing.JFrame {
         pack();
         
         setLocationRelativeTo(null);
+        
+        loadData();
     }// </editor-fold>                        
 
     /**
      * @param args the command line arguments
      */
+    private void loadData() {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDatSach");
+
+            FindIterable<Document> documents = collection.find();
+
+            DefaultTableModel model = (DefaultTableModel) orderList.getModel();
+            model.setRowCount(0);
+
+            for (Document document : documents) {
+                String id = document.getString("manguoidung");
+                String usname = document.getString("ten");
+                String isbn = document.getString("masach");
+                String name = document.getString("tensach");
+                String category = document.getString("theloai");
+                String publisher = document.getString("nhaxuatban");
+                model.addRow(new Object[]{id, usname, isbn, name, category, publisher});
+            }
+
+            mongoClient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {                                        
         AdminForm af = new AdminForm(loggedInUsername);
         af.setVisible(true);
@@ -215,11 +241,68 @@ public class BrManagement extends javax.swing.JFrame {
     }
     
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {                                        
-            
+        loadData();
+
+        JOptionPane.showMessageDialog(this, "Làm mới thành công!");
+        
+        comboSearch.setSelectedIndex(0);
+        searchField.setText("");
     }
     
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {                                        
-             
+        String searchCategory = comboSearch.getSelectedItem().toString();
+        String searchText = searchField.getText().trim();
+
+        if (searchCategory.isEmpty()) {
+            searchField.setText("");
+            loadData();
+            return;
+        }
+
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nhập thông tin để tìm kiếm.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDatSach");
+
+            BasicDBObject query = new BasicDBObject();
+
+            switch (searchCategory) {
+                case "Tên người đặt":
+                    query.put("ten", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+                case "Mã sách":
+                    query.put("masach", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+                case "Tên sách":
+                    query.put("tensach", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+            }
+
+            FindIterable<Document> documents = collection.find(query);
+
+            DefaultTableModel model = (DefaultTableModel) orderList.getModel();
+            model.setRowCount(0);
+
+            for (Document document : documents) {
+                String id = document.getString("manguoidung");
+                String usname = document.getString("ten");
+                String isbn = document.getString("masach");
+                String name = document.getString("tensach");
+                String category = document.getString("theloai");
+                String publisher = document.getString("nhaxuatban");
+                model.addRow(new Object[]{id, usname, isbn, name, category, publisher});
+            }
+
+            mongoClient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi tìm kiếm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     public static void main(String args[]) {
@@ -268,7 +351,6 @@ public class BrManagement extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable orderList;
     private javax.swing.JTextField searchField;
     private static String loggedInUsername;

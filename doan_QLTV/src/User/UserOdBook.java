@@ -1,10 +1,13 @@
 package User;
-import User.UserForm;
+import Login.LoginForm;
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
 /*
@@ -46,7 +49,7 @@ public class UserOdBook extends javax.swing.JFrame {
         jSeparator7 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         bookList = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        btnOrder = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnBack = new javax.swing.JMenuItem();
@@ -59,7 +62,7 @@ public class UserOdBook extends javax.swing.JFrame {
 
         jLabel2.setText("Tìm kiếm theo: ");
 
-        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Mã sách", "Tên sách", "Nhà xuất bản" }));
+        comboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Mã sách", "Tên sách", "Nhà xuất bản", "Thể loại" }));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
         btnSearch.setText("Tìm kiếm");
@@ -82,7 +85,12 @@ public class UserOdBook extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(bookList);
 
-        jButton2.setText("Đặt sách");
+        btnOrder.setText("Đặt sách");
+        btnOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrderActionPerformed(evt);
+            }
+        });
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/book.png"))); // NOI18N
         jMenu1.setText("Đặt sách");
@@ -99,6 +107,12 @@ public class UserOdBook extends javax.swing.JFrame {
 
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/log-out.png"))); // NOI18N
         btnLogOut.setText("Đăng xuất");
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
+        
         jMenu1.add(btnLogOut);
 
         jMenuBar1.add(jMenu1);
@@ -136,7 +150,7 @@ public class UserOdBook extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(417, 417, 417)
-                .addComponent(jButton2)
+                .addComponent(btnOrder)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -162,7 +176,7 @@ public class UserOdBook extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
-                .addComponent(jButton2)
+                .addComponent(btnOrder)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -175,7 +189,7 @@ public class UserOdBook extends javax.swing.JFrame {
     }// </editor-fold>                        
     
     
-     private void loadData() {
+    private void loadData() {
         try {
             MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
             MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
@@ -205,15 +219,154 @@ public class UserOdBook extends javax.swing.JFrame {
     }
     
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
         UserForm af = new UserForm(loggedInUsername);
         af.setVisible(true);
                 
         this.dispose();    
-    }                                       
+    }
+    
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        LoginForm lf = new LoginForm();
+        lf.setVisible(true);
+                
+        this.dispose();
+    }
+    
+    private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        int selectedRow = bookList.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn một sách để đặt.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            String isbn = bookList.getValueAt(selectedRow, 0).toString();
+            String name = bookList.getValueAt(selectedRow, 1).toString();
+            String category = bookList.getValueAt(selectedRow, 2).toString();
+            String publisher = bookList.getValueAt(selectedRow, 3).toString();
+
+            int option = JOptionPane.showConfirmDialog(this, "Bạn có muốn đặt sách '" + name + "' không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+            if (option == JOptionPane.YES_OPTION) {
+                String[] userInfo = getUserInfo(loggedInUsername);
+
+                saveOrder(isbn, name, category, publisher, userInfo[0], userInfo[1]);
+
+                JOptionPane.showMessageDialog(this, "Đặt sách thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi đặt sách.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private String[] getUserInfo(String loggedInUsername) {
+        String[] userInfo = new String[2];
+
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDangNhap");
+
+            BasicDBObject query = new BasicDBObject("tentk", loggedInUsername);
+            FindIterable<Document> result = collection.find(query);
+
+            for (Document document : result) {
+                userInfo[0] = document.getString("manguoidung");
+                userInfo[1] = document.getString("ten");
+            }
+
+            mongoClient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return userInfo;
+    }
+
+    private void saveOrder(String isbn, String name, String category, String publisher, String userId, String userName) {
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlyDatSach");
+
+            Document orderDocument = new Document();
+            orderDocument.append("masach", isbn)
+                         .append("tensach", name)
+                         .append("theloai", category)
+                         .append("nhaxuatban", publisher)
+                         .append("manguoidung", userId)
+                         .append("ten", userName);
+
+            collection.insertOne(orderDocument);
+
+            mongoClient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
+       String searchCategory = comboSearch.getSelectedItem().toString();
+        String searchText = searchField.getText().trim();
+
+        if (searchCategory.isEmpty()) {
+            searchField.setText("");
+            loadData();
+            return;
+        }
+
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nhập thông tin để tìm kiếm.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("QUANLYTHUVIEN");
+            MongoCollection<Document> collection = database.getCollection("qlySach");
+
+            BasicDBObject query = new BasicDBObject();
+
+            switch (searchCategory) {
+                case "Mã sách":
+                    query.put("masach", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+                case "Tên sách":
+                    query.put("tensach", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+                case "Nhà xuất bản":
+                    query.put("nhaxuatban", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+                case "Thể loại":
+                    query.put("theloai", java.util.regex.Pattern.compile(searchText, Pattern.CASE_INSENSITIVE));
+                    break;
+            }
+
+            FindIterable<Document> documents = collection.find(query);
+
+            DefaultTableModel model = (DefaultTableModel) bookList.getModel();
+            model.setRowCount(0);
+
+            for (Document document : documents) {
+                String isbn = document.getString("masach");
+                String name = document.getString("tensach");
+                String category = document.getString("theloai");
+                String publisher = document.getString("nhaxuatban");
+                int price = document.getInteger("giasach");
+                String state = document.getString("trangthai");
+                if("Chưa nhập".equals(state)){
+                model.addRow(new Object[]{isbn, name, category, publisher, price, state});
+                }
+            }
+
+            mongoClient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi tìm kiếm sách.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } 
     }                                         
 
     /**
@@ -257,7 +410,7 @@ public class UserOdBook extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnLogOut;
     private javax.swing.JButton btnSearch;
     private javax.swing.JComboBox<String> comboSearch;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnOrder;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;

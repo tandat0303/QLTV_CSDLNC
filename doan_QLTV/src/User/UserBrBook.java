@@ -1,5 +1,6 @@
 package User;
 
+import Login.LoginForm;
 import User.UserForm;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -12,7 +13,6 @@ import org.bson.Document;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-import User.Asking_Br;
 
 /**
  *
@@ -27,12 +27,6 @@ public class UserBrBook extends javax.swing.JFrame {
         this.loggedInUsername = username;
         initComponents();
         setTitle("Thư viện SGUni");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
     }
 
     /**
@@ -108,6 +102,11 @@ public class UserBrBook extends javax.swing.JFrame {
 
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/log-out.png"))); // NOI18N
         btnLogOut.setText("Đăng xuất");
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
         jMenu1.add(btnLogOut);
 
         jMenuBar1.add(jMenu1);
@@ -213,25 +212,21 @@ public class UserBrBook extends javax.swing.JFrame {
     }
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
         UserForm af = new UserForm(loggedInUsername);
         af.setVisible(true);
+
+        this.dispose();
+    }
+    
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {
+        LoginForm lf = new LoginForm();
+        lf.setVisible(true);
 
         this.dispose();
     }
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-
-        Asking_Br as = new Asking_Br(loggedInUsername);
-        as.setVisible(true);
-
-        this.dispose();
-
     }
 
     /**
